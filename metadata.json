@@ -1,0 +1,6 @@
+{
+  "name": "Vantage: Enterprise Psychometric Career Intelligence Platform",
+  "description": "Scientifically grounded psychometric assessment, career matching, institutional talent analytics, and government workforce intelligence ecosystem with an Africa-first strategy.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
