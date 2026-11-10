@@ -12,6 +12,12 @@ import { OCCUPATIONAL_DATABASE } from './data/occupations';
 import { calculatePsychometricScores } from './services/scoringEngine';
 import { generateCareerRecommendations } from './services/recommendationEngine';
 import { SupportedLanguage } from './services/i18n';
+import {
+  getSupabaseCurrentUser,
+  supabaseSignOut,
+  saveAssessmentResultToSupabase,
+  fetchAssessmentResultFromSupabase,
+} from './services/supabase';
 
 // Components
 import { Navbar } from './components/layout/Navbar';
@@ -97,7 +103,7 @@ export default function App() {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState<SupportedLanguage>('en');
 
-  // Global Cmd+K / Ctrl+K keyboard shortcut listener
+  // Global Cmd+K / Ctrl+K keyboard shortcut listener & Supabase Session Restoration
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
@@ -106,6 +112,22 @@ export default function App() {
       }
     };
     window.addEventListener('keydown', handleKeyDown);
+
+    // Restore active Supabase session if authenticated
+    getSupabaseCurrentUser().then(({ user, profile, role }) => {
+      if (user && profile) {
+        setUserProfile(profile);
+        setActiveRole(role);
+        fetchAssessmentResultFromSupabase(profile.id).then((savedResult) => {
+          if (savedResult) {
+            setAssessmentResults(savedResult);
+            const updated = generateCareerRecommendations(savedResult, profile);
+            if (updated.length > 0) setTargetCareer(updated[0]);
+          }
+        });
+      }
+    });
+
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
@@ -134,6 +156,9 @@ export default function App() {
     if (updatedCareers.length > 0) {
       setTargetCareer(updatedCareers[0]);
     }
+    // Asynchronously persist to Supabase database
+    saveAssessmentResultToSupabase(newResults);
+
     setActiveView('results');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -207,6 +232,7 @@ export default function App() {
         onEditProfile={() => setIsOnboardingOpen(true)}
         onOpenSettings={() => setIsSettingsOpen(true)}
         onLogout={() => {
+          supabaseSignOut();
           setUserProfile(null);
           setActiveRole('individual');
           setActiveView('landing');

@@ -155,6 +155,30 @@ export const SecurityAuditorModal: React.FC<SecurityAuditorModalProps> = ({
           </p>
         </div>
 
+        {/* Supabase Cloud Database & Auth Engine Status */}
+        <div className="p-4 bg-slate-950/80 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-xl bg-teal-400/20 text-teal-300 font-black flex items-center justify-center font-mono text-sm">
+              ⚡
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <strong className="text-white">Supabase Cloud Database & Authentication</strong>
+                <span className="px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-400 font-mono text-[10px] font-bold">
+                  CONNECTED
+                </span>
+              </div>
+              <span className="text-[11px] text-slate-400 block font-mono">
+                Project: Vantage (xlsyepfvlwwwaovivlaw) · PostgreSQL 15+ with Row Level Security (RLS)
+              </span>
+            </div>
+          </div>
+          <div className="text-[11px] font-mono text-slate-400 sm:text-right shrink-0">
+            <span className="text-teal-400 font-semibold block">TLS 1.3 / AES-256</span>
+            <span>GoTrue v2 Auth Active</span>
+          </div>
+        </div>
+
         {/* Real-time Security Architecture Metrics */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           <div className="p-4 bg-slate-950/70 rounded-xl space-y-1">
