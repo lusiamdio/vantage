@@ -20,8 +20,8 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
   onSaveProfile,
   initialProfile,
 }) => {
-  const [fullName, setFullName] = useState(initialProfile?.fullName || 'Kofi Mensah');
-  const [email, setEmail] = useState(initialProfile?.email || 'kofi.mensah@alumni.ashesi.edu.gh');
+  const [fullName, setFullName] = useState(initialProfile?.fullName || '');
+  const [email, setEmail] = useState(initialProfile?.email || '');
   const [country, setCountry] = useState(initialProfile?.country || 'Ghana');
   const [city, setCity] = useState(initialProfile?.city || 'Accra');
   const [ageBand, setAgeBand] = useState<UserProfile['ageBand']>(
@@ -117,7 +117,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 className="w-full bg-slate-950 rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-teal-400 transition-colors"
-                placeholder="e.g. Kofi Mensah"
+                placeholder="Enter full legal name"
               />
             </div>
             <div>
@@ -128,7 +128,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full bg-slate-950 rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-teal-400 transition-colors"
-                placeholder="kofi@example.com"
+                placeholder="name@example.com"
               />
             </div>
           </div>

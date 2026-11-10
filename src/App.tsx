@@ -49,21 +49,9 @@ export default function App() {
   const [activeView, setActiveView] = useState<string>('landing');
   const [activeRole, setActiveRole] = useState<UserRole>('individual');
 
-  // Candidate Profile State
-  const [userProfile, setUserProfile] = useState<UserProfile | null>({
-    id: 'usr_kofi_mensah',
-    fullName: 'Kofi Mensah',
-    email: 'kofi.mensah@alumni.ashesi.edu.gh',
-    country: 'Ghana',
-    city: 'Accra',
-    ageBand: '19-24 (University/Grad)',
-    currentStatus: 'University Student',
-    educationalBackground: 'BSc Computer Science & Distributed Systems',
-    targetIndustries: ['Technology & Cloud Infrastructure', 'Clean Energy & Infrastructure'],
-    preferredLanguages: ['English'],
-    consentAccepted: true,
-    consentDate: '2026-11-01T10:00:00Z',
-  });
+  // Candidate Profile State - Starts null so Landing Page appears first for unauthenticated visitors
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [authInitialMode, setAuthInitialMode] = useState<'signin' | 'signup'>('signin');
 
   // Default Baseline Assessment Results (scientifically generated)
   const defaultBaselineResults: AssessmentResultRecord = calculatePsychometricScores(
@@ -89,7 +77,7 @@ export default function App() {
       { questionId: 'cog_abs_1', category: 'cognitive_aptitude', dimension: 'abstractPattern', selectedOptionId: 'opt1', numericValue: 1, reactionTimeMs: 5100, timestamp: '2026-11-07T12:02:50Z' },
       { questionId: 'cog_logic_1', category: 'cognitive_aptitude', dimension: 'logicalDeduction', selectedOptionId: 'opt2', numericValue: 1, reactionTimeMs: 6400, timestamp: '2026-11-07T12:03:00Z' },
     ],
-    userProfile?.id || 'usr_kofi_mensah'
+    userProfile?.id || 'usr_candidate_baseline'
   );
 
   const [assessmentResults, setAssessmentResults] = useState<AssessmentResultRecord>(defaultBaselineResults);
@@ -182,7 +170,7 @@ export default function App() {
   if (activeView === 'auth') {
     return (
       <AuthPage
-        initialMode="signin"
+        initialMode={authInitialMode}
         activeRole={activeRole}
         onAuthenticate={handleAuthenticate}
         onNavigateHome={() => {
@@ -211,7 +199,8 @@ export default function App() {
         currentLanguage={currentLanguage}
         onSelectLanguage={setCurrentLanguage}
         onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
-        onOpenAuth={() => {
+        onOpenAuth={(mode?: 'signin' | 'signup') => {
+          setAuthInitialMode(mode || 'signin');
           setActiveView('auth');
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
@@ -306,14 +295,191 @@ export default function App() {
           />
         )}
 
-        {/* Core Module 3: Institutional Talent Analytics */}
-        {activeView === 'institutional' && <InstitutionalDashboard />}
+        {/* Core Module 3: Institutional Talent Analytics (Role Separated) */}
+        {activeView === 'institutional' && (
+          userProfile && activeRole === 'institution_admin' ? (
+            <InstitutionalDashboard />
+          ) : (
+            <div className="min-h-[75vh] flex items-center justify-center px-6 py-16 text-center">
+              <div className="w-full max-w-lg bg-slate-900 rounded-3xl p-8 sm:p-10 shadow-2xl space-y-6 text-left border-none">
+                <div className="w-12 h-12 rounded-2xl bg-teal-400/20 text-teal-300 flex items-center justify-center text-xl font-bold font-mono">
+                  🏛️
+                </div>
+                <div>
+                  <span className="text-[10px] font-mono text-teal-400 uppercase tracking-widest font-bold block mb-1">
+                    Role Partitioned Workspace
+                  </span>
+                  <h2 className="text-2xl font-extrabold text-white tracking-tight">
+                    University & Corporate HR Access Required
+                  </h2>
+                  <p className="text-xs text-slate-300 mt-2 leading-relaxed">
+                    The Institutional Talent Analytics Console is strictly partitioned for authorized university deans, department heads, and corporate talent directors.
+                  </p>
+                </div>
 
-        {/* Core Module 4: National Labor Market Intelligence */}
-        {activeView === 'government' && <GovernmentWorkforceDashboard />}
+                <div className="p-4 bg-slate-950/70 rounded-xl space-y-2 text-xs">
+                  <div className="flex justify-between text-slate-400">
+                    <span>Required Role:</span>
+                    <span className="text-teal-400 font-bold font-mono uppercase">University & Enterprise HR (B2B)</span>
+                  </div>
+                  <div className="flex justify-between text-slate-400">
+                    <span>Current Access:</span>
+                    <span className="text-slate-200 font-mono">
+                      {userProfile ? `Authenticated as ${activeRole}` : 'Unauthenticated Guest'}
+                    </span>
+                  </div>
+                </div>
 
-        {/* Governance & Psychometrics Superadmin */}
-        {activeView === 'admin' && <PlatformAdminDashboard />}
+                <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                  <button
+                    onClick={() => {
+                      setActiveRole('institution_admin');
+                      setAuthInitialMode('signin');
+                      setActiveView('auth');
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className="flex-1 py-3 px-4 text-xs font-bold text-slate-950 bg-teal-400 hover:bg-teal-300 rounded-xl transition-colors text-center"
+                  >
+                    Sign In as University / HR →
+                  </button>
+                  <button
+                    onClick={() => {
+                      setActiveView('landing');
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className="py-3 px-4 text-xs font-semibold text-slate-300 hover:text-white bg-slate-950 rounded-xl transition-colors text-center"
+                  >
+                    Return Home
+                  </button>
+                </div>
+              </div>
+            </div>
+          )
+        )}
+
+        {/* Core Module 4: National Labor Market Intelligence (Role Separated) */}
+        {activeView === 'government' && (
+          userProfile && activeRole === 'government_analyst' ? (
+            <GovernmentWorkforceDashboard />
+          ) : (
+            <div className="min-h-[75vh] flex items-center justify-center px-6 py-16 text-center">
+              <div className="w-full max-w-lg bg-slate-900 rounded-3xl p-8 sm:p-10 shadow-2xl space-y-6 text-left border-none">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-400/20 text-emerald-300 flex items-center justify-center text-xl font-bold font-mono">
+                  🌍
+                </div>
+                <div>
+                  <span className="text-[10px] font-mono text-emerald-400 uppercase tracking-widest font-bold block mb-1">
+                    Role Partitioned Workspace
+                  </span>
+                  <h2 className="text-2xl font-extrabold text-white tracking-tight">
+                    Government Analyst Access Required
+                  </h2>
+                  <p className="text-xs text-slate-300 mt-2 leading-relaxed">
+                    The National Workforce Intelligence Platform is strictly partitioned for authorized Ministry of Labour, TVET, and national planning authorities.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-slate-950/70 rounded-xl space-y-2 text-xs">
+                  <div className="flex justify-between text-slate-400">
+                    <span>Required Role:</span>
+                    <span className="text-emerald-400 font-bold font-mono uppercase">Ministry of Labour / TVET (B2G)</span>
+                  </div>
+                  <div className="flex justify-between text-slate-400">
+                    <span>Current Access:</span>
+                    <span className="text-slate-200 font-mono">
+                      {userProfile ? `Authenticated as ${activeRole}` : 'Unauthenticated Guest'}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                  <button
+                    onClick={() => {
+                      setActiveRole('government_analyst');
+                      setAuthInitialMode('signin');
+                      setActiveView('auth');
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className="flex-1 py-3 px-4 text-xs font-bold text-slate-950 bg-emerald-400 hover:bg-emerald-300 rounded-xl transition-colors text-center"
+                  >
+                    Sign In as Ministry Analyst →
+                  </button>
+                  <button
+                    onClick={() => {
+                      setActiveView('landing');
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className="py-3 px-4 text-xs font-semibold text-slate-300 hover:text-white bg-slate-950 rounded-xl transition-colors text-center"
+                  >
+                    Return Home
+                  </button>
+                </div>
+              </div>
+            </div>
+          )
+        )}
+
+        {/* Governance & Psychometrics Superadmin (Role Separated) */}
+        {activeView === 'admin' && (
+          userProfile && activeRole === 'platform_superadmin' ? (
+            <PlatformAdminDashboard />
+          ) : (
+            <div className="min-h-[75vh] flex items-center justify-center px-6 py-16 text-center">
+              <div className="w-full max-w-lg bg-slate-900 rounded-3xl p-8 sm:p-10 shadow-2xl space-y-6 text-left border-none">
+                <div className="w-12 h-12 rounded-2xl bg-cyan-400/20 text-cyan-300 flex items-center justify-center text-xl font-bold font-mono">
+                  ⚙️
+                </div>
+                <div>
+                  <span className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest font-bold block mb-1">
+                    Role Partitioned Workspace
+                  </span>
+                  <h2 className="text-2xl font-extrabold text-white tracking-tight">
+                    Psychometrics & Governance Admin Required
+                  </h2>
+                  <p className="text-xs text-slate-300 mt-2 leading-relaxed">
+                    This administrative console controls Item Response Theory (IRT) parameter calibration, Differential Item Functioning (DIF) monitors, and test validity auditing.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-slate-950/70 rounded-xl space-y-2 text-xs">
+                  <div className="flex justify-between text-slate-400">
+                    <span>Required Role:</span>
+                    <span className="text-cyan-400 font-bold font-mono uppercase">Platform Superadmin & Governance</span>
+                  </div>
+                  <div className="flex justify-between text-slate-400">
+                    <span>Current Access:</span>
+                    <span className="text-slate-200 font-mono">
+                      {userProfile ? `Authenticated as ${activeRole}` : 'Unauthenticated Guest'}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                  <button
+                    onClick={() => {
+                      setActiveRole('platform_superadmin');
+                      setAuthInitialMode('signin');
+                      setActiveView('auth');
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className="flex-1 py-3 px-4 text-xs font-bold text-slate-950 bg-cyan-400 hover:bg-cyan-300 rounded-xl transition-colors text-center"
+                  >
+                    Sign In as Governance Admin →
+                  </button>
+                  <button
+                    onClick={() => {
+                      setActiveView('landing');
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className="py-3 px-4 text-xs font-semibold text-slate-300 hover:text-white bg-slate-950 rounded-xl transition-colors text-center"
+                  >
+                    Return Home
+                  </button>
+                </div>
+              </div>
+            </div>
+          )
+        )}
 
         {/* General Commercial Plans Overview */}
         {activeView === 'pricing' && (

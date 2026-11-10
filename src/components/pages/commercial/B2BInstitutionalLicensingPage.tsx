@@ -257,7 +257,7 @@ export const B2BInstitutionalLicensingPage: React.FC<B2BInstitutionalLicensingPa
                   required
                   value={rfpEmail}
                   onChange={(e) => setRfpEmail(e.target.value)}
-                  placeholder="k.mensah@uonbi.ac.ke"
+                  placeholder="dean@university.ac.ke"
                   className="w-full bg-slate-950 rounded-lg px-3.5 py-2.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-teal-400"
                 />
               </div>

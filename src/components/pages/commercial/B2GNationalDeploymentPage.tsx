@@ -177,7 +177,7 @@ export const B2GNationalDeploymentPage: React.FC<B2GNationalDeploymentPageProps>
                   required
                   value={govContactName}
                   onChange={(e) => setGovContactName(e.target.value)}
-                  placeholder="e.g. Hon. David Kiprono, Director of TVET"
+                  placeholder="e.g. Director of TVET / Permanent Secretary"
                   className="w-full bg-slate-950 rounded-lg px-3.5 py-2.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-teal-400"
                 />
               </div>

@@ -17,7 +17,7 @@ interface NavbarProps {
   currentLanguage: SupportedLanguage;
   onSelectLanguage: (lang: SupportedLanguage) => void;
   onOpenCommandPalette: () => void;
-  onOpenAuth: () => void;
+  onOpenAuth: (mode?: 'signin' | 'signup') => void;
   onEditProfile: () => void;
   onOpenSettings: () => void;
   onLogout: () => void;
@@ -122,16 +122,168 @@ export const Navbar: React.FC<NavbarProps> = ({
           </button>
         </div>
 
-        {/* Zone 2: Navigation Links */}
-        <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
-          <button
-            onClick={() => setActiveView('pricing')}
-            className={`whitespace-nowrap shrink-0 hover:text-white transition-colors ${
-              activeView === 'pricing' || activeView.startsWith('commercial_') ? 'text-teal-400 font-semibold' : ''
-            }`}
-          >
-            {t.commercialPlans}
-          </button>
+        {/* Zone 2: Navigation Links (Strictly Role Separated) */}
+        <nav className="hidden lg:flex items-center gap-5 text-xs font-semibold text-slate-300">
+          {!userProfile ? (
+            <>
+              <button
+                onClick={() => setActiveView('landing')}
+                className={`whitespace-nowrap shrink-0 hover:text-white transition-colors ${
+                  activeView === 'landing' ? 'text-teal-400 font-bold' : ''
+                }`}
+              >
+                Overview
+              </button>
+              <button
+                onClick={() => setActiveView('assessments')}
+                className={`whitespace-nowrap shrink-0 hover:text-white transition-colors ${
+                  activeView === 'assessments' ? 'text-teal-400 font-bold' : ''
+                }`}
+              >
+                Assessment Battery
+              </button>
+              <button
+                onClick={() => setActiveView('pricing')}
+                className={`whitespace-nowrap shrink-0 hover:text-white transition-colors ${
+                  activeView === 'pricing' || activeView.startsWith('commercial_') ? 'text-teal-400 font-bold' : ''
+                }`}
+              >
+                {t.commercialPlans}
+              </button>
+              <button
+                onClick={() => setActiveView('gov_ethical_ai')}
+                className={`whitespace-nowrap shrink-0 hover:text-white transition-colors ${
+                  activeView.startsWith('gov_') ? 'text-teal-400 font-bold' : ''
+                }`}
+              >
+                Governance & Ethics
+              </button>
+            </>
+          ) : activeRole === 'individual' ? (
+            <>
+              <button
+                onClick={() => setActiveView('assessments')}
+                className={`whitespace-nowrap shrink-0 hover:text-white transition-colors ${
+                  activeView === 'assessments' ? 'text-teal-400 font-bold' : ''
+                }`}
+              >
+                Batteries
+              </button>
+              <button
+                onClick={() => setActiveView('results')}
+                className={`whitespace-nowrap shrink-0 hover:text-white transition-colors ${
+                  activeView === 'results' ? 'text-teal-400 font-bold' : ''
+                }`}
+              >
+                My Dossier
+              </button>
+              <button
+                onClick={() => setActiveView('careers')}
+                className={`whitespace-nowrap shrink-0 hover:text-white transition-colors ${
+                  activeView === 'careers' ? 'text-teal-400 font-bold' : ''
+                }`}
+              >
+                Occupations
+              </button>
+              <button
+                onClick={() => setActiveView('roadmap')}
+                className={`whitespace-nowrap shrink-0 hover:text-white transition-colors ${
+                  activeView === 'roadmap' ? 'text-teal-400 font-bold' : ''
+                }`}
+              >
+                Career Roadmap
+              </button>
+              <button
+                onClick={() => setActiveView('pricing')}
+                className={`whitespace-nowrap shrink-0 hover:text-white transition-colors ${
+                  activeView === 'pricing' || activeView.startsWith('commercial_') ? 'text-teal-400 font-bold' : ''
+                }`}
+              >
+                Plans
+              </button>
+            </>
+          ) : activeRole === 'institution_admin' ? (
+            <>
+              <button
+                onClick={() => setActiveView('institutional')}
+                className={`whitespace-nowrap shrink-0 hover:text-white transition-colors ${
+                  activeView === 'institutional' ? 'text-teal-400 font-bold' : ''
+                }`}
+              >
+                Cohort Analytics
+              </button>
+              <button
+                onClick={() => setActiveView('commercial_b2b')}
+                className={`whitespace-nowrap shrink-0 hover:text-white transition-colors ${
+                  activeView === 'commercial_b2b' ? 'text-teal-400 font-bold' : ''
+                }`}
+              >
+                Campus Licensing
+              </button>
+              <button
+                onClick={() => setActiveView('assessments')}
+                className={`whitespace-nowrap shrink-0 hover:text-white transition-colors ${
+                  activeView === 'assessments' ? 'text-teal-400 font-bold' : ''
+                }`}
+              >
+                Assessments
+              </button>
+            </>
+          ) : activeRole === 'government_analyst' ? (
+            <>
+              <button
+                onClick={() => setActiveView('government')}
+                className={`whitespace-nowrap shrink-0 hover:text-white transition-colors ${
+                  activeView === 'government' ? 'text-emerald-400 font-bold' : ''
+                }`}
+              >
+                Workforce Intelligence
+              </button>
+              <button
+                onClick={() => setActiveView('commercial_b2g')}
+                className={`whitespace-nowrap shrink-0 hover:text-white transition-colors ${
+                  activeView === 'commercial_b2g' ? 'text-emerald-400 font-bold' : ''
+                }`}
+              >
+                National Agreements
+              </button>
+              <button
+                onClick={() => setActiveView('gov_ethical_ai')}
+                className={`whitespace-nowrap shrink-0 hover:text-white transition-colors ${
+                  activeView.startsWith('gov_') ? 'text-emerald-400 font-bold' : ''
+                }`}
+              >
+                Ethical AI Charter
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                onClick={() => setActiveView('admin')}
+                className={`whitespace-nowrap shrink-0 hover:text-white transition-colors ${
+                  activeView === 'admin' ? 'text-cyan-400 font-bold' : ''
+                }`}
+              >
+                Governance Console
+              </button>
+              <button
+                onClick={() => setActiveView('gov_dif_standards')}
+                className={`whitespace-nowrap shrink-0 hover:text-white transition-colors ${
+                  activeView === 'gov_dif_standards' ? 'text-cyan-400 font-bold' : ''
+                }`}
+              >
+                DIF Standards
+              </button>
+              <button
+                onClick={() => setActiveView('gov_privacy_framework')}
+                className={`whitespace-nowrap shrink-0 hover:text-white transition-colors ${
+                  activeView === 'gov_privacy_framework' ? 'text-cyan-400 font-bold' : ''
+                }`}
+              >
+                Privacy & Data
+              </button>
+            </>
+          )}
         </nav>
 
         {/* Zone 3: Language Selector & Profile Dropbox */}
@@ -299,12 +451,20 @@ export const Navbar: React.FC<NavbarProps> = ({
               )}
             </div>
           ) : (
-            <button
-              onClick={onOpenAuth}
-              className="px-4 py-2 text-xs font-semibold text-slate-950 bg-teal-400 hover:bg-teal-300 rounded-lg transition-colors whitespace-nowrap shrink-0 shadow-sm"
-            >
-              Sign In / Register
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => onOpenAuth('signin')}
+                className="px-3 py-1.5 text-xs font-semibold text-slate-300 hover:text-white bg-slate-900 hover:bg-slate-850 rounded-xl transition-colors whitespace-nowrap shrink-0"
+              >
+                Sign In
+              </button>
+              <button
+                onClick={() => onOpenAuth('signup')}
+                className="px-3.5 py-1.5 text-xs font-bold text-slate-950 bg-teal-400 hover:bg-teal-300 rounded-xl transition-colors whitespace-nowrap shrink-0 shadow-sm"
+              >
+                Sign Up
+              </button>
+            </div>
           )}
         </div>
       </div>

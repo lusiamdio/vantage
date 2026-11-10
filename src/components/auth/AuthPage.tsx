@@ -34,45 +34,41 @@ export const AuthPage: React.FC<AuthPageProps> = ({
   const [activeTestimonialIndex, setActiveTestimonialIndex] = useState(0);
   const [recoverySent, setRecoverySent] = useState(false);
 
-  // Preset quick roles for seamless testing
+  // Role configurations for dedicated persona access
   const rolePresets = [
     {
       role: 'individual' as UserRole,
       title: 'Candidate / Learner',
       badge: 'B2C',
+      description: 'Personal psychometric profiling & career discovery',
       tagline: 'Personal psychometric profiling, career discovery & skill roadmaps',
-      defaultName: 'Kofi Mensah',
-      defaultEmail: 'kofi.mensah@alumni.ashesi.edu.gh',
-      defaultOrg: 'Ashesi University (Graduate)',
-      jurisdiction: 'Ghana · West Africa',
+      defaultOrg: 'Independent Candidate',
+      jurisdiction: 'Pan-African Directorate',
     },
     {
       role: 'institution_admin' as UserRole,
       title: 'University & Enterprise HR',
       badge: 'B2B',
+      description: 'Cohort talent analytics & skills-gap heatmaps',
       tagline: 'Cohort talent analytics, skills-gap heatmaps & campaign dispatch',
-      defaultName: 'Dr. Amina Diallo',
-      defaultEmail: 'a.diallo@pan-african-tech.edu',
-      defaultOrg: 'Pan-African University of Technology & Innovation',
-      jurisdiction: 'Kenya · East Africa',
+      defaultOrg: 'Higher Education / Enterprise Partner',
+      jurisdiction: 'Institutional Network',
     },
     {
       role: 'government_analyst' as UserRole,
       title: 'Ministry of Labour / TVET',
       badge: 'B2G',
+      description: 'National workforce intelligence & policy telemetry',
       tagline: 'National workforce intelligence, youth demographics & policy advisories',
-      defaultName: 'Hon. David Kiprono',
-      defaultEmail: 'd.kiprono@labour.go.ke',
-      defaultOrg: 'Kenya Ministry of Labour & TVET Authority',
-      jurisdiction: 'Regional Directorate',
+      defaultOrg: 'Ministry of Labour & TVET Authority',
+      jurisdiction: 'National Planning Bureau',
     },
     {
       role: 'platform_superadmin' as UserRole,
       title: 'Psychometrician & Admin',
       badge: 'GOVERNANCE',
+      description: 'Instrument calibration & DIF bias audits',
       tagline: 'Instrument calibration, DIF bias audits & statutory compliance',
-      defaultName: 'Prof. T. Adebayo (C.Psychol)',
-      defaultEmail: 'adebayo.governance@vantage-talent.org',
       defaultOrg: 'Vantage Psychometric Governance Board',
       jurisdiction: 'Statutory Directorate',
     },
@@ -102,50 +98,25 @@ export const AuthPage: React.FC<AuthPageProps> = ({
     },
   ];
 
-  const handleQuickDemoSign = (preset: typeof rolePresets[0]) => {
-    const profile: UserProfile = {
-      id: `usr_${Date.now()}`,
-      fullName: preset.defaultName,
-      email: preset.defaultEmail,
-      country: preset.role === 'government_analyst' ? 'Kenya' : 'Ghana',
-      city: 'Nairobi / Accra',
-      ageBand: preset.role === 'individual' ? '19-24 (University/Grad)' : '35+ (Experienced)',
-      currentStatus: preset.role === 'individual' ? 'Graduate' : 'Employed Professional',
-      educationalBackground: preset.defaultOrg,
-      targetIndustries: ['Technology & Cloud Infrastructure', 'Clean Energy & Infrastructure'],
-      preferredLanguages: ['English'],
-      organizationId: preset.defaultOrg,
-      consentAccepted: true,
-      consentDate: new Date().toISOString(),
-    };
-
-    onAuthenticate(preset.role, profile);
-  };
-
-  const handleOAuthSignIn = (provider: 'github' | 'google' | 'microsoft' | 'sso') => {
+  const handleOAuthSignIn = (provider: 'google' | 'microsoft' | 'sso') => {
     const preset = rolePresets.find((r) => r.role === selectedRole) || rolePresets[0];
+    const providerLabel = provider === 'google' ? 'Google Workspace' : provider === 'microsoft' ? 'Microsoft 365' : 'University SSO';
+    const roleTitles: Record<UserRole, { title: string; handle: string; domain: string }> = {
+      individual: { title: 'Candidate Scholar', handle: 'candidate', domain: 'alumni.edu' },
+      institution_admin: { title: 'Institutional Dean / Administrator', handle: 'admin', domain: 'institution.edu' },
+      government_analyst: { title: 'National Workforce Analyst', handle: 'analyst', domain: 'labour.gov' },
+      platform_superadmin: { title: 'Chief Psychometric Officer', handle: 'governance', domain: 'vantage-talent.org' },
+    };
+    const roleInfo = roleTitles[selectedRole];
+
     const profile: UserProfile = {
       id: `usr_oauth_${provider}_${Date.now()}`,
-      fullName:
-        provider === 'github'
-          ? 'Dev. Kwesi Arthur'
-          : provider === 'google'
-          ? 'Dr. Amina Diallo'
-          : provider === 'microsoft'
-          ? 'Prof. Sarah Osei'
-          : 'Hon. David Kiprono',
-      email:
-        provider === 'github'
-          ? 'kwesi.dev@github.com'
-          : provider === 'google'
-          ? 'amina.diallo@gmail.com'
-          : provider === 'microsoft'
-          ? 's.osei@university365.edu'
-          : 'd.kiprono@labour.go.ke',
-      country: 'Ghana',
-      city: 'Accra / Nairobi',
-      ageBand: '25-34 (Early Career)',
-      currentStatus: 'Employed Professional',
+      fullName: `${roleInfo.title} (${providerLabel})`,
+      email: `${roleInfo.handle}@${roleInfo.domain}`,
+      country: selectedRole === 'government_analyst' ? 'Kenya' : 'Ghana',
+      city: 'Capital Region',
+      ageBand: selectedRole === 'individual' ? '19-24 (University/Grad)' : '25-34 (Early Career)',
+      currentStatus: selectedRole === 'individual' ? 'Graduate' : 'Employed Professional',
       educationalBackground: preset.defaultOrg,
       targetIndustries: ['Technology & Cloud Infrastructure'],
       preferredLanguages: ['English'],
@@ -161,18 +132,22 @@ export const AuthPage: React.FC<AuthPageProps> = ({
     e.preventDefault();
     const preset = rolePresets.find((r) => r.role === selectedRole) || rolePresets[0];
 
+    const fallbackName = authMode === 'signup'
+      ? (fullName.trim() || 'Registered User')
+      : (email ? email.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()) : 'Authorized User');
+
     const profile: UserProfile = {
       id: `usr_${Date.now()}`,
-      fullName: fullName || preset.defaultName,
-      email: email || preset.defaultEmail,
+      fullName: fullName.trim() || fallbackName,
+      email: email.trim(),
       country,
       city: 'Capital Region',
       ageBand: selectedRole === 'individual' ? '19-24 (University/Grad)' : '25-34 (Early Career)',
       currentStatus: selectedRole === 'individual' ? 'Graduate' : 'Employed Professional',
-      educationalBackground: organization || preset.defaultOrg,
+      educationalBackground: organization.trim() || preset.defaultOrg,
       targetIndustries: ['Technology & Cloud Infrastructure'],
       preferredLanguages: ['English'],
-      organizationId: organization || preset.defaultOrg,
+      organizationId: organization.trim() || preset.defaultOrg,
       consentAccepted: true,
       consentDate: new Date().toISOString(),
     };
@@ -373,18 +348,6 @@ export const AuthPage: React.FC<AuthPageProps> = ({
 
             {/* CodeRabbit Style One-Click Social / SSO OAuth Buttons */}
             <div className="space-y-2.5">
-              {/* GitHub OAuth Button */}
-              <button
-                type="button"
-                onClick={() => handleOAuthSignIn('github')}
-                className="w-full py-2.5 px-4 rounded-xl bg-slate-950 hover:bg-slate-850 text-slate-200 hover:text-white transition-all text-xs font-semibold flex items-center justify-center gap-3 shadow-sm group"
-              >
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
-                </svg>
-                <span>Continue with GitHub</span>
-              </button>
-
               {/* Google OAuth Button */}
               <button
                 type="button"
@@ -462,7 +425,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                           {preset.badge}
                         </span>
                       </div>
-                      <span className="text-[10px] text-slate-400 block line-clamp-1">{preset.defaultName}</span>
+                      <span className="text-[10px] text-slate-400 block line-clamp-1">{preset.description}</span>
                     </button>
                   );
                 })}
@@ -479,7 +442,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                     required
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    placeholder="e.g. Kofi Mensah or Dr. Amina Diallo"
+                    placeholder="Enter your full legal name"
                     className="w-full bg-slate-950 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-teal-400"
                   />
                 </div>
@@ -559,26 +522,6 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                 {authMode === 'signin' ? 'Sign In to Vantage Console' : 'Create Free Enterprise Account'}
               </button>
             </form>
-
-            {/* Quick 1-Click Demo Presets Bar */}
-            <div className="pt-2 border-none space-y-2">
-              <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider block">
-                Instant 1-Click Demo Presets
-              </span>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                {rolePresets.map((preset) => (
-                  <button
-                    type="button"
-                    key={preset.role}
-                    onClick={() => handleQuickDemoSign(preset)}
-                    className="p-2.5 text-left bg-slate-950 hover:bg-slate-850 rounded-xl transition-colors text-[11px]"
-                  >
-                    <span className="font-semibold text-white block truncate">{preset.title.split(' ')[0]}</span>
-                    <span className="text-teal-400 font-mono text-[10px] block mt-0.5">Test Drive →</span>
-                  </button>
-                ))}
-              </div>
-            </div>
 
             {/* Terms & Privacy Statement */}
             <p className="text-[11px] text-slate-500 text-center leading-relaxed pt-2">

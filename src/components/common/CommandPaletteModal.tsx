@@ -59,7 +59,7 @@ export const CommandPaletteModal: React.FC<CommandPaletteModalProps> = ({
     {
       id: 'act_auth',
       title: 'Sign In / Enterprise Registration',
-      subtitle: 'Open dedicated authentication portal with GitHub, Google, Microsoft SSO & demo roles',
+      subtitle: 'Open dedicated authentication portal with Google, Microsoft 365, University SSO & credentials',
       category: 'actions',
       badge: 'AUTH',
       icon: '🔐',

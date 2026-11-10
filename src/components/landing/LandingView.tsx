@@ -116,7 +116,7 @@ export const LandingView: React.FC<LandingViewProps> = ({
               onClick={() => handleNavigate('institutional')}
               className="px-7 py-4 text-xs font-semibold text-slate-200 hover:text-white bg-slate-900 hover:bg-slate-850 rounded-xl transition-all active:scale-[0.98]"
             >
-              Institutional & Enterprise Demo
+              Institutional & Enterprise Access
             </button>
           </div>
 
