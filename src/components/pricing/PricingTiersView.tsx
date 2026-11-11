@@ -9,11 +9,12 @@ import React, { useState } from 'react';
 
 interface PricingTiersViewProps {
   onSelectPlan: (planName: string) => void;
+  onNavigate?: (view: string) => void;
 }
 
 type CurrencyCode = 'USD' | 'ZAR' | 'KES' | 'NGN' | 'EUR' | 'GBP';
 
-export const PricingTiersView: React.FC<PricingTiersViewProps> = ({ onSelectPlan }) => {
+export const PricingTiersView: React.FC<PricingTiersViewProps> = ({ onSelectPlan, onNavigate }) => {
   const [currency, setCurrency] = useState<CurrencyCode>('USD');
 
   // Rates relative to USD base
@@ -85,10 +86,10 @@ export const PricingTiersView: React.FC<PricingTiersViewProps> = ({ onSelectPlan
             </p>
 
             <div className="mb-6 pb-6">
-              <div className="text-3xl font-extrabold text-white font-mono tabular-nums">
-                {formatPrice(29)}
+              <div className="text-3xl font-extrabold text-teal-400 font-mono tracking-tight mb-1">
+                FREE
               </div>
-              <span className="text-xs text-slate-500">One-time assessment fee · Lifetime access</span>
+              <span className="text-xs text-slate-400">100% Free Lifetime Access · No payment or credit card required</span>
             </div>
 
             <ul className="space-y-3 text-xs text-slate-300 mb-8">
@@ -184,7 +185,13 @@ export const PricingTiersView: React.FC<PricingTiersViewProps> = ({ onSelectPlan
           </div>
 
           <button
-            onClick={() => onSelectPlan('B2B Institutional Talent Console')}
+            onClick={() => {
+              if (onNavigate) {
+                onNavigate('institutional_payment');
+              } else {
+                onSelectPlan('B2B Institutional Talent Console');
+              }
+            }}
             className="w-full py-3 px-4 text-xs font-bold text-slate-950 bg-teal-400 hover:bg-teal-300 rounded-lg transition-colors text-center shadow-md"
           >
             Deploy Institutional License
@@ -240,7 +247,13 @@ export const PricingTiersView: React.FC<PricingTiersViewProps> = ({ onSelectPlan
           </div>
 
           <button
-            onClick={() => onSelectPlan('B2G National Workforce Intelligence')}
+            onClick={() => {
+              if (onNavigate) {
+                onNavigate('government_consultation');
+              } else {
+                onSelectPlan('B2G National Workforce Intelligence');
+              }
+            }}
             className="w-full py-3 px-4 text-xs font-bold text-slate-200 hover:text-white bg-slate-800 hover:bg-slate-750 rounded-lg transition-colors text-center"
           >
             Request Government Consultation

@@ -7,6 +7,7 @@
 
 import React, { useState } from 'react';
 import { AssessmentResultRecord, UserProfile } from '../../types';
+import { generateHarmonicPredictiveProfile } from '../../services/predictiveEngine';
 import { NormGroupSelectorModal } from './NormGroupSelectorModal';
 import {
   Radar,
@@ -299,6 +300,183 @@ export const PsychometricResultsDashboard: React.FC<PsychometricResultsDashboard
           </div>
         </div>
       </div>
+
+      {/* PREDICTIVE TRAJECTORY & LONGITUDINAL SUCCESS INTELLIGENCE */}
+      {(() => {
+        const forecast = results.harmonicForecast || generateHarmonicPredictiveProfile(results, userProfile || undefined);
+        return (
+          <div className="bg-slate-900 rounded-2xl p-8 sm:p-10 shadow-2xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-8">
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="px-2.5 py-0.5 rounded-full bg-teal-500/10 text-teal-400 text-[11px] font-mono font-semibold">
+                    PREDICTIVE INTELLIGENCE ENGINE
+                  </span>
+                  <span className="text-xs text-slate-500">·</span>
+                  <span className="text-xs text-slate-400 font-mono">
+                    Triadic Vector & Harmonic Resonance
+                  </span>
+                </div>
+                <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+                  Longitudinal Educational & Career Success Forecast
+                </h2>
+                <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-2xl">
+                  Synthesizes cognitive grit, cyclical momentum cadence, and archetypal congruence to forecast academic mastery velocity and 5-year career ascent.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-4 bg-slate-950/70 p-4 rounded-xl">
+                <div className="text-right">
+                  <span className="text-[10px] text-slate-400 block uppercase tracking-wider font-semibold">
+                    Inherent Potential Quotient
+                  </span>
+                  <span className="text-2xl font-bold text-teal-400 font-mono">
+                    {forecast.inherentPotentialQuotient}/100
+                  </span>
+                </div>
+                <div className="w-12 h-12 rounded-xl bg-teal-500/10 flex items-center justify-center text-teal-300 font-mono font-bold text-sm">
+                  IPQ
+                </div>
+              </div>
+            </div>
+
+            {/* Triadic Structural Vector (3 Pillars) */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+              <div className="bg-slate-950/60 p-5 rounded-xl flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-semibold text-slate-300">Inception Momentum</span>
+                    <span className="font-mono text-teal-400 font-bold text-sm">
+                      {forecast.triadicResonance.inceptionMomentum}%
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-slate-400 mb-3">
+                    Propensity to initiate novel ventures, creative velocity, and proactive autonomy.
+                  </p>
+                </div>
+                <div className="w-full bg-slate-900 h-2 rounded-full overflow-hidden">
+                  <div
+                    className="bg-teal-400 h-full rounded-full transition-all"
+                    style={{ width: `${forecast.triadicResonance.inceptionMomentum}%` }}
+                  />
+                </div>
+              </div>
+
+              <div className="bg-slate-950/60 p-5 rounded-xl flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-semibold text-slate-300">Structural Fortitude</span>
+                    <span className="font-mono text-emerald-400 font-bold text-sm">
+                      {forecast.triadicResonance.structuralFortitude}%
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-slate-400 mb-3">
+                    Cognitive grit, institutional endurance, and emotional stability under high-stakes loads.
+                  </p>
+                </div>
+                <div className="w-full bg-slate-900 h-2 rounded-full overflow-hidden">
+                  <div
+                    className="bg-emerald-400 h-full rounded-full transition-all"
+                    style={{ width: `${forecast.triadicResonance.structuralFortitude}%` }}
+                  />
+                </div>
+              </div>
+
+              <div className="bg-slate-950/60 p-5 rounded-xl flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-semibold text-slate-300">Sovereign Mastery</span>
+                    <span className="font-mono text-cyan-400 font-bold text-sm">
+                      {forecast.triadicResonance.sovereignMastery}%
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-slate-400 mb-3">
+                    Systems synthesis, ethical stewardship, strategic coordination, and leadership readiness.
+                  </p>
+                </div>
+                <div className="w-full bg-slate-900 h-2 rounded-full overflow-hidden">
+                  <div
+                    className="bg-cyan-400 h-full rounded-full transition-all"
+                    style={{ width: `${forecast.triadicResonance.sovereignMastery}%` }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Dual Forecast Panels: Educational & Career */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Educational Success Forecast */}
+              <div className="bg-slate-950/50 p-6 rounded-xl space-y-4">
+                <div className="flex items-center justify-between pb-3">
+                  <div>
+                    <h3 className="text-sm font-bold text-white">Educational Trajectory Forecast</h3>
+                    <p className="text-[11px] text-slate-400">Academic grit & curriculum retention indicators</p>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-lg font-bold text-teal-400 font-mono">
+                      {forecast.educationalForecast.successProbability}%
+                    </span>
+                    <span className="block text-[10px] text-slate-400">Completion Likelihood</span>
+                  </div>
+                </div>
+
+                <div className="space-y-2.5 text-xs">
+                  <div className="flex items-center justify-between py-1.5 px-3 bg-slate-900/60 rounded-lg">
+                    <span className="text-slate-400">Optimal Learning Modality:</span>
+                    <span className="font-semibold text-teal-300">{forecast.educationalForecast.optimalLearningCadence}</span>
+                  </div>
+                  <div className="flex items-center justify-between py-1.5 px-3 bg-slate-900/60 rounded-lg">
+                    <span className="text-slate-400">Projected Mastery Horizon:</span>
+                    <span className="font-mono font-semibold text-white">~{forecast.educationalForecast.projectedMasteryMonths} Months</span>
+                  </div>
+                  <div className="flex items-center justify-between py-1.5 px-3 bg-slate-900/60 rounded-lg">
+                    <span className="text-slate-400">Academic Grit & Retention Index:</span>
+                    <span className="font-mono font-semibold text-emerald-400">{forecast.educationalForecast.academicRetentionIndex}/100</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Career Success Forecast */}
+              <div className="bg-slate-950/50 p-6 rounded-xl space-y-4">
+                <div className="flex items-center justify-between pb-3">
+                  <div>
+                    <h3 className="text-sm font-bold text-white">Longitudinal Career Trajectory</h3>
+                    <p className="text-[11px] text-slate-400">5-year ascent probability & cyclical cadence</p>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-lg font-bold text-cyan-400 font-mono">
+                      {forecast.careerForecast.fiveYearAscentProbability}%
+                    </span>
+                    <span className="block text-[10px] text-slate-400">Ascent Probability</span>
+                  </div>
+                </div>
+
+                <div className="space-y-2.5 text-xs">
+                  <div className="flex items-center justify-between py-1.5 px-3 bg-slate-900/60 rounded-lg">
+                    <span className="text-slate-400">Expression Archetype:</span>
+                    <span className="font-semibold text-white truncate max-w-[220px]" title={forecast.expressionArchetype}>
+                      {forecast.expressionArchetype}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between py-1.5 px-3 bg-slate-900/60 rounded-lg">
+                    <span className="text-slate-400">Longitudinal Velocity:</span>
+                    <span className="font-semibold text-teal-300 truncate max-w-[220px]">
+                      {forecast.careerForecast.longitudinalVelocity}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between py-1.5 px-3 bg-slate-900/60 rounded-lg">
+                    <span className="text-slate-400">Cyclical Timing Cadence:</span>
+                    <span className="font-mono text-slate-300 truncate max-w-[220px]">
+                      {forecast.careerForecast.cyclicalTimingPhase}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Norm Group Selector & Gaussian Curve Modal */}
       <NormGroupSelectorModal

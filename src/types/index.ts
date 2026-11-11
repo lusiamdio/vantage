@@ -138,6 +138,51 @@ export interface AssessmentValidityMetrics {
   notes: string;
 }
 
+export interface EducationalSuccessForecast {
+  successProbability: number;
+  optimalLearningCadence: string;
+  academicGritIndex: number;
+  projectedMasteryMonths: number;
+  curriculumResonance: string;
+  academicRetentionIndex: number;
+}
+
+export interface CareerSuccessForecast {
+  fiveYearAscentProbability: number;
+  longitudinalVelocity: string;
+  cyclicalTimingPhase: string;
+  harmonicAlignmentScore: number;
+  expressionArchetype: string;
+  pinnacleEarningResonance: string;
+  coreGrowthCatalysts: string[];
+  strategicRiskMitigations: string[];
+}
+
+export interface HarmonicPredictiveProfile {
+  inherentPotentialQuotient: number;
+  harmonicBaseFrequency: number;
+  triadicResonance: {
+    inceptionMomentum: number;
+    structuralFortitude: number;
+    sovereignMastery: number;
+  };
+  cyclicalCadenceStage: string;
+  expressionArchetype: string;
+  educationalForecast: EducationalSuccessForecast;
+  careerForecast: CareerSuccessForecast;
+}
+
+export interface CareerMatchPredictiveForecast {
+  educationalSuccessProbability: number;
+  careerAscentProbability: number;
+  harmonicResonanceScore: number;
+  cyclicalTimingPhase: string;
+  optimalLearningCadence: string;
+  projectedMasteryMonths: number;
+  expressionArchetype: string;
+  growthCatalyst: string;
+}
+
 export interface AssessmentResultRecord {
   id: string;
   userId: string;
@@ -149,6 +194,7 @@ export interface AssessmentResultRecord {
   cognitive: CognitiveSubScores;
   careerValues: CareerValueItem[];
   skills: WorkplaceSkillScore[];
+  harmonicForecast?: HarmonicPredictiveProfile;
 }
 
 export interface CareerMatch {
@@ -178,6 +224,7 @@ export interface CareerMatch {
   psychometricEvidenceExplanation: string;
   growthPathway: string;
   transitionDifficulty: 'Entry / Direct' | 'Moderate Bridge Needed' | 'Specialized Degree Required';
+  predictiveForecast?: CareerMatchPredictiveForecast;
 }
 
 export interface UserProfile {

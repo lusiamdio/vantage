@@ -146,22 +146,59 @@ export const CareerRoadmapView: React.FC<CareerRoadmapViewProps> = ({
         </div>
       </div>
 
-      {/* Progress Card */}
-      <div className="bg-slate-900 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6 w-full">
-        <div>
-          <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">
-            Execution Velocity
-          </span>
-          <div className="text-xl font-bold text-white font-mono tabular-nums">
-            {completedCount} of {milestones.length} Milestones Achieved ({progressPct}%)
+      {/* Progress & Predictive Trajectory Card */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+        <div className="bg-slate-900 rounded-2xl p-6 sm:p-8 flex flex-col justify-between">
+          <div>
+            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">
+              Execution Velocity
+            </span>
+            <div className="text-xl font-bold text-white font-mono tabular-nums mb-4">
+              {completedCount} of {milestones.length} Milestones Achieved ({progressPct}%)
+            </div>
+          </div>
+
+          <div className="w-full bg-slate-950 h-3 rounded-full overflow-hidden">
+            <div
+              className="bg-teal-400 h-full transition-all duration-300"
+              style={{ width: `${progressPct}%` }}
+            />
           </div>
         </div>
 
-        <div className="w-full sm:w-72 bg-slate-950 h-3 rounded-full overflow-hidden">
-          <div
-            className="bg-teal-400 h-full transition-all duration-300"
-            style={{ width: `${progressPct}%` }}
-          />
+        {/* Predictive Trajectory & Harmonic Cadence Card */}
+        <div className="bg-slate-900 rounded-2xl p-6 sm:p-8 flex flex-col justify-between">
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold text-teal-400 uppercase tracking-wider">
+                Predictive Success Trajectory
+              </span>
+              {targetCareer.predictiveForecast && (
+                <span className="text-xs font-mono font-bold text-teal-300">
+                  {targetCareer.predictiveForecast.educationalSuccessProbability}% Completion Likelihood
+                </span>
+              )}
+            </div>
+            <p className="text-xs text-slate-300 leading-relaxed">
+              {targetCareer.predictiveForecast?.growthCatalyst ||
+                `Harmonic convergence indicates an accelerated trajectory toward ${targetCareer.title}.`}
+            </p>
+          </div>
+
+          <div className="pt-3 grid grid-cols-2 gap-3 text-xs text-slate-400">
+            <div className="p-2.5 bg-slate-950/60 rounded-lg">
+              <span className="text-[10px] text-slate-500 block uppercase">Mastery Horizon</span>
+              <strong className="text-white font-mono">
+                ~{targetCareer.predictiveForecast?.projectedMasteryMonths || 18} Months
+              </strong>
+            </div>
+            <div className="p-2.5 bg-slate-950/60 rounded-lg">
+              <span className="text-[10px] text-slate-500 block uppercase">Harmonic Resonance</span>
+              <strong className="text-teal-400 font-mono">
+                {targetCareer.predictiveForecast?.harmonicResonanceScore || 88}%
+              </strong>
+            </div>
+          </div>
         </div>
       </div>
 

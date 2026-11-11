@@ -7,6 +7,10 @@
 
 import { AssessmentResultRecord, CareerMatch, UserProfile } from '../types';
 import { OCCUPATIONAL_DATABASE } from '../data/occupations';
+import {
+  generateHarmonicPredictiveProfile,
+  calculateCareerPredictiveForecast,
+} from './predictiveEngine';
 
 /**
  * Calculates Holland Hexagonal Congruence (0-100%)
@@ -44,7 +48,7 @@ function calculateRiasecCongruence(userCode: string, occupationCode: string): nu
 }
 
 /**
- * Match results with Occupational Database
+ * Match results with Occupational Database, enriched with predictive success forecasting
  */
 export function generateCareerRecommendations(
   results: AssessmentResultRecord,
@@ -54,6 +58,10 @@ export function generateCareerRecommendations(
   const userCognitivePercentile = results.cognitive.overallPercentile;
   const userConscientiousness = results.bigFive.conscientiousness.percentile;
   const userOpenness = results.bigFive.openness.percentile;
+
+  // Generate predictive profile
+  const harmonicProfile =
+    results.harmonicForecast || generateHarmonicPredictiveProfile(results, userProfile);
 
   return OCCUPATIONAL_DATABASE.map((occ) => {
     // 1. RIASEC Congruence
@@ -65,8 +73,8 @@ export function generateCareerRecommendations(
     const personalityFitPct = Math.min(98, Math.max(45, basePersonalityFit));
 
     // 3. Cognitive Suitability
-    let cogDiff = Math.abs(userCognitivePercentile - 85);
-    let cognitiveSuitabilityPct = Math.max(40, 100 - cogDiff);
+    const cogDiff = Math.abs(userCognitivePercentile - 85);
+    const cognitiveSuitabilityPct = Math.max(40, 100 - cogDiff);
 
     // 4. Skills Readiness
     const skillsReadinessPct = Math.min(96, Math.max(50, Math.round((results.skills[0]?.level || 80) * 0.6 + 35)));
@@ -79,13 +87,21 @@ export function generateCareerRecommendations(
       skillsReadinessPct * 0.15
     );
 
-    return {
+    const baseCareerMatch: CareerMatch = {
       ...occ,
       overallMatchScore,
       riasecCongruencePct: riasecCongruence,
       personalityFitPct,
       cognitiveSuitabilityPct,
       skillsReadinessPct,
+    };
+
+    // Attach career-specific predictive forecast (educational & career trajectory)
+    const predictiveForecast = calculateCareerPredictiveForecast(baseCareerMatch, harmonicProfile, results);
+
+    return {
+      ...baseCareerMatch,
+      predictiveForecast,
     };
   }).sort((a, b) => b.overallMatchScore - a.overallMatchScore);
 }

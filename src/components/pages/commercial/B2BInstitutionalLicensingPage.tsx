@@ -134,8 +134,8 @@ export const B2BInstitutionalLicensingPage: React.FC<B2BInstitutionalLicensingPa
           </div>
 
           <button
-            onClick={onOpenInstitutionalConsole}
-            className="mt-8 w-full py-3 px-4 text-xs font-bold text-slate-950 bg-teal-400 hover:bg-teal-300 rounded-xl transition-colors text-center shadow-md"
+            onClick={() => onNavigate('institutional_payment')}
+            className="mt-8 w-full py-3 px-4 text-xs font-bold text-slate-950 bg-teal-400 hover:bg-teal-300 rounded-xl transition-colors text-center shadow-md active:scale-[0.99]"
           >
             Deploy Institutional License
           </button>

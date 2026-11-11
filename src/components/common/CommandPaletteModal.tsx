@@ -218,10 +218,10 @@ export const CommandPaletteModal: React.FC<CommandPaletteModalProps> = ({
     // Commercial Offerings
     {
       id: 'comm_b2c',
-      title: 'B2C Individual Career Pass',
-      subtitle: 'Personal psychometric profiling, career discovery & development roadmaps',
+      title: 'B2C Individual Career Pass (Free)',
+      subtitle: '100% Free personal psychometric profiling, career discovery & development roadmaps',
       category: 'commercial',
-      badge: 'PLANS',
+      badge: 'FREE',
       icon: '👤',
       action: () => { onNavigate('commercial_b2c'); onClose(); },
     },
@@ -235,6 +235,15 @@ export const CommandPaletteModal: React.FC<CommandPaletteModalProps> = ({
       action: () => { onNavigate('commercial_b2b'); onClose(); },
     },
     {
+      id: 'comm_b2b_payment',
+      title: 'Deploy Institutional License (Payment Checkout)',
+      subtitle: 'Instant provisioning with MPESA, EFT, Bank Wire, and Google Pay',
+      category: 'commercial',
+      badge: 'PAYMENT',
+      icon: '💳',
+      action: () => { onNavigate('institutional_payment'); onClose(); },
+    },
+    {
       id: 'comm_b2g',
       title: 'B2G National Deployment Agreements',
       subtitle: 'Sovereign in-country cloud instances and youth labor telemetry',
@@ -242,6 +251,15 @@ export const CommandPaletteModal: React.FC<CommandPaletteModalProps> = ({
       badge: 'PLANS',
       icon: '🌐',
       action: () => { onNavigate('commercial_b2g'); onClose(); },
+    },
+    {
+      id: 'comm_b2g_proposal',
+      title: 'Request Government Consultation & Feasibility Proposal',
+      subtitle: 'Formal ministerial briefing intake and TVET retooling feasibility',
+      category: 'commercial',
+      badge: 'PROPOSAL',
+      icon: '🏛️',
+      action: () => { onNavigate('government_consultation'); onClose(); },
     },
   ];
 

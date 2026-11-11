@@ -7,6 +7,7 @@
 
 import React from 'react';
 import { AssessmentResultRecord, CareerMatch, UserProfile } from '../../types';
+import { generateHarmonicPredictiveProfile } from '../../services/predictiveEngine';
 
 interface ProfessionalReportModalProps {
   isOpen: boolean;
@@ -209,7 +210,64 @@ export const ProfessionalReportModal: React.FC<ProfessionalReportModalProps> = (
           </div>
         </div>
 
-        {/* Section 6: Governance & Disclaimers */}
+        {/* Section 6: Longitudinal Educational & Career Success Forecasting */}
+        {(() => {
+          const forecast = results.harmonicForecast || generateHarmonicPredictiveProfile(results, userProfile || undefined);
+          return (
+            <div className="mb-8 space-y-3">
+              <div className="flex items-center justify-between">
+                <h2 className="text-sm font-bold uppercase tracking-wider text-slate-900 pb-1">
+                  05. Longitudinal Educational & Career Trajectory Forecast
+                </h2>
+                <span className="text-xs font-mono font-bold text-teal-800">
+                  IPQ: {forecast.inherentPotentialQuotient}/100
+                </span>
+              </div>
+
+              <div className="grid grid-cols-3 gap-3 text-xs mb-3">
+                <div className="p-3.5 bg-slate-100 rounded-xl">
+                  <span className="text-slate-500 block text-[11px]">Inception Momentum</span>
+                  <strong className="text-slate-900 font-mono text-sm">{forecast.triadicResonance.inceptionMomentum}%</strong>
+                  <span className="text-slate-500 block text-[10px] mt-0.5">Autonomy & Initiation</span>
+                </div>
+                <div className="p-3.5 bg-slate-100 rounded-xl">
+                  <span className="text-slate-500 block text-[11px]">Structural Fortitude</span>
+                  <strong className="text-slate-900 font-mono text-sm">{forecast.triadicResonance.structuralFortitude}%</strong>
+                  <span className="text-slate-500 block text-[10px] mt-0.5">Cognitive Grit & Stability</span>
+                </div>
+                <div className="p-3.5 bg-slate-100 rounded-xl">
+                  <span className="text-slate-500 block text-[11px]">Sovereign Mastery</span>
+                  <strong className="text-slate-900 font-mono text-sm">{forecast.triadicResonance.sovereignMastery}%</strong>
+                  <span className="text-slate-500 block text-[10px] mt-0.5">Strategic Command</span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 text-xs">
+                <div className="p-4 bg-teal-50/60 rounded-xl space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <strong className="text-slate-900">Academic Completion Probability</strong>
+                    <span className="font-mono text-teal-800 font-bold">{forecast.educationalForecast.successProbability}%</span>
+                  </div>
+                  <p className="text-[11px] text-slate-600">
+                    Optimal Learning Modality: <strong className="text-slate-800">{forecast.educationalForecast.optimalLearningCadence}</strong>. Projected mastery horizon: ~{forecast.educationalForecast.projectedMasteryMonths} months.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-teal-50/60 rounded-xl space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <strong className="text-slate-900">5-Year Career Ascent Velocity</strong>
+                    <span className="font-mono text-teal-800 font-bold">{forecast.careerForecast.fiveYearAscentProbability}%</span>
+                  </div>
+                  <p className="text-[11px] text-slate-600">
+                    Cadence: <strong className="text-slate-800">{forecast.careerForecast.cyclicalTimingPhase}</strong>. Trajectory: {forecast.careerForecast.longitudinalVelocity}.
+                  </p>
+                </div>
+              </div>
+            </div>
+          );
+        })()}
+
+        {/* Section 7: Governance & Disclaimers */}
         <div className="p-5 bg-slate-100 rounded-xl text-[11px] text-slate-600 leading-relaxed">
           <strong className="text-slate-900 block mb-1">Psychometric Governance & Statutory Disclaimers:</strong>
           This report translates psychometric assessment evidence into career guidance and development planning. It does NOT constitute a clinical psychological or psychiatric diagnosis. Under South Africa’s Employment Equity Act & POPIA, Kenya’s Data Protection Act, and Nigeria’s NDPA, psychometric assessments must not be utilized as the sole deterministic basis for employment selection, student exclusion, or adverse educational determinations.

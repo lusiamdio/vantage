@@ -82,10 +82,10 @@ export const B2CIndividualPassPage: React.FC<B2CIndividualPassPageProps> = ({
 
           <div className="pt-2 flex flex-wrap items-center gap-3">
             <button
-              onClick={onStartAssessment}
+              onClick={() => onNavigate('auth_signup')}
               className="px-8 py-4 text-xs font-bold text-slate-950 bg-teal-400 hover:bg-teal-300 rounded-xl transition-all shadow-lg hover:shadow-teal-500/20 active:scale-[0.98]"
             >
-              Get Assessed Now ({currentPrice.symbol}{currentPrice.price.toLocaleString()}) →
+              Get Assessed Now (100% Free) →
             </button>
             <button
               onClick={() => onNavigate('careers')}
@@ -100,7 +100,7 @@ export const B2CIndividualPassPage: React.FC<B2CIndividualPassPageProps> = ({
             <span aria-hidden="true">·</span>
             <span>✓ Instant PDF Report</span>
             <span aria-hidden="true">·</span>
-            <span>✓ 100% Private & Confidential</span>
+            <span>✓ 100% Free Access</span>
           </div>
         </div>
 
@@ -108,26 +108,16 @@ export const B2CIndividualPassPage: React.FC<B2CIndividualPassPageProps> = ({
         <div className="lg:col-span-5 bg-slate-900 rounded-2xl p-8 space-y-6 shadow-2xl">
           <div className="flex items-center justify-between">
             <span className="text-xs font-mono uppercase text-teal-400 font-bold">Standard Single License</span>
-            <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-lg">
-              {(['USD', 'ZAR', 'KES', 'NGN', 'EUR', 'GBP'] as CurrencyCode[]).map((c) => (
-                <button
-                  key={c}
-                  onClick={() => setCurrency(c)}
-                  className={`px-2 py-1 text-[11px] font-mono rounded ${
-                    currency === c ? 'bg-teal-400 text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
-                  }`}
-                >
-                  {c}
-                </button>
-              ))}
-            </div>
+            <span className="px-2.5 py-0.5 rounded-full bg-teal-500/10 text-teal-400 font-mono text-[11px] font-bold">
+              COMMUNITY BENEFIT
+            </span>
           </div>
 
           <div>
-            <div className="text-4xl font-extrabold text-white font-mono tabular-nums">
-              {currentPrice.symbol}{currentPrice.price.toLocaleString()}
+            <div className="text-4xl font-extrabold text-teal-400 font-mono tracking-tight">
+              FREE
             </div>
-            <p className="text-xs text-slate-400 mt-1">One-time payment · No subscription or recurring fees</p>
+            <p className="text-xs text-slate-300 mt-1">100% Free Lifetime Access · No payment or credit card required</p>
           </div>
 
           <div className="space-y-3 text-xs text-slate-300 pt-2">
@@ -162,14 +152,14 @@ export const B2CIndividualPassPage: React.FC<B2CIndividualPassPageProps> = ({
           </div>
 
           <button
-            onClick={onStartAssessment}
-            className="w-full py-3.5 px-4 text-xs font-bold text-slate-950 bg-teal-400 hover:bg-teal-300 rounded-xl transition-colors text-center shadow-md"
+            onClick={() => onNavigate('auth_signup')}
+            className="w-full py-3.5 px-4 text-xs font-bold text-slate-950 bg-teal-400 hover:bg-teal-300 rounded-xl transition-colors text-center shadow-md active:scale-[0.99]"
           >
             Launch Assessment Now
           </button>
 
-          <p className="text-[11px] text-slate-500 text-center">
-            Supported Payments: M-Pesa, Paystack, Flutterwave, Ozow, Cards.
+          <p className="text-[11px] text-slate-400 text-center">
+            Sign up in 30 seconds to begin your assessment immediately.
           </p>
         </div>
       </div>

@@ -107,12 +107,12 @@ export const CareerRecommendationsView: React.FC<CareerRecommendationsViewProps>
       {/* Engine Architecture Deep-Dive Tab */}
       {activeTab === 'architecture' ? (
         <div className="space-y-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-slate-900 p-8 rounded-2xl space-y-3">
               <span className="text-xs font-mono text-teal-400 font-bold block">MATHEMATICAL MODEL 01</span>
               <h2 className="text-lg font-bold text-white">Holland Hexagonal Distance Calculus</h2>
               <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
-                We compute geometric distance across the RIASEC circumplex. Adjacent codes (e.g. Realistic to Investigative, distance = 1) yield higher baseline congruence than polar opposites (Realistic to Social, distance = 3). Weighted multi-rank weighting (3 for primary, 2 for secondary, 1 for tertiary) produces the final congruence coefficient.
+                We compute geometric distance across the RIASEC circumplex. Adjacent codes yield higher baseline congruence than polar opposites. Weighted multi-rank weighting produces the final congruence coefficient.
               </p>
             </div>
 
@@ -120,7 +120,7 @@ export const CareerRecommendationsView: React.FC<CareerRecommendationsViewProps>
               <span className="text-xs font-mono text-cyan-400 font-bold block">MATHEMATICAL MODEL 02</span>
               <h2 className="text-lg font-bold text-white">Five-Factor Euclidean Fit Vector</h2>
               <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
-                Each ISCO-08 occupational archetype possesses an empirical target Sten range. The engine computes normalized Euclidean distance across Openness, Conscientiousness, Extraversion, Agreeableness, and Emotional Stability, ensuring candidate dispositions thrive in the day-to-day work environment.
+                Each ISCO-08 occupational archetype possesses an empirical target Sten range. The engine computes normalized Euclidean distance across personality dimensions, ensuring candidate dispositions thrive.
               </p>
             </div>
 
@@ -128,7 +128,15 @@ export const CareerRecommendationsView: React.FC<CareerRecommendationsViewProps>
               <span className="text-xs font-mono text-emerald-400 font-bold block">MATHEMATICAL MODEL 03</span>
               <h2 className="text-lg font-bold text-white">GCAT Cognitive Complexity Thresholds</h2>
               <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
-                Roles requiring high abstract modeling or quantitative deduction (e.g. Distributed Cloud Architect, Renewable Grid Engineer) enforce cognitive percentile suitability floors. Candidates meeting or exceeding complexity floors receive accelerated readiness multipliers.
+                Roles requiring high abstract modeling or quantitative deduction enforce cognitive percentile suitability floors. Candidates meeting complexity floors receive accelerated readiness multipliers.
+              </p>
+            </div>
+
+            <div className="bg-slate-900 p-8 rounded-2xl space-y-3">
+              <span className="text-xs font-mono text-violet-400 font-bold block">MATHEMATICAL MODEL 04</span>
+              <h2 className="text-lg font-bold text-white">Harmonic Trajectory & Triadic Vector</h2>
+              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                Synthesizes Inception Momentum, Structural Fortitude, and Sovereign Mastery to calculate an Inherent Potential Quotient (IPQ), forecasting educational mastery timelines and 5-year career ascent velocity.
               </p>
             </div>
           </div>
@@ -315,6 +323,25 @@ export const CareerRecommendationsView: React.FC<CareerRecommendationsViewProps>
                         </span>
                       </div>
                     </div>
+
+                    {/* Predictive Trajectory & Harmonic Congruence Indicator */}
+                    {career.predictiveForecast && (
+                      <div className="mb-4 p-3 bg-teal-950/20 rounded-xl space-y-1.5 text-xs">
+                        <div className="flex items-center justify-between text-[11px]">
+                          <span className="text-teal-300 font-semibold flex items-center gap-1.5">
+                            <span className="w-1.5 h-1.5 rounded-full bg-teal-400" />
+                            Educational Success Forecast
+                          </span>
+                          <span className="font-mono text-teal-300 font-bold">
+                            {career.predictiveForecast.educationalSuccessProbability}% Probable
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between text-[10px] text-slate-400">
+                          <span>Mastery Horizon: ~{career.predictiveForecast.projectedMasteryMonths} mo</span>
+                          <span>Harmonic Resonance: {career.predictiveForecast.harmonicResonanceScore}%</span>
+                        </div>
+                      </div>
+                    )}
 
                     {/* Compensation preview */}
                     <div className="text-xs text-slate-400 mb-4">

@@ -107,7 +107,7 @@ export const LandingView: React.FC<LandingViewProps> = ({
           {/* Conversion Action Strip */}
           <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
             <button
-              onClick={onStartAssessment}
+              onClick={() => handleNavigate('auth_signup')}
               className="px-8 py-4 text-xs font-bold text-slate-950 bg-teal-400 hover:bg-teal-300 rounded-xl transition-all shadow-lg hover:shadow-teal-500/20 active:scale-[0.98]"
             >
               Get Assessed Now
@@ -143,18 +143,7 @@ export const LandingView: React.FC<LandingViewProps> = ({
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/45 to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-transparent to-slate-950/40" />
 
-            {/* Top Status Indicators */}
-            <div className="absolute top-4 left-4 sm:top-6 sm:left-6 flex flex-wrap items-center gap-2">
-              <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-950/85 backdrop-blur-md text-[11px] font-mono text-teal-300 font-semibold shadow-lg">
-                <span className="w-2 h-2 rounded-full bg-teal-400 animate-pulse" />
-                <span>LIVE TELEMETRY STREAM</span>
-                <span className="text-slate-500 hidden sm:inline">·</span>
-                <span className="text-slate-400 hidden sm:inline">Continental Labor Indicators</span>
-              </div>
-              <div className="hidden md:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-950/80 backdrop-blur-md text-[10px] font-mono text-slate-300">
-                <span>ISCO-08 & Holland Hexagonal Calibration</span>
-              </div>
-            </div>
+
 
             {/* Bottom Content Overlay */}
             <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -239,6 +228,14 @@ export const LandingView: React.FC<LandingViewProps> = ({
                   <strong className="text-sm sm:text-base font-semibold text-white">88th Percentile (Superior Analytical Fluidity)</strong>
                 </div>
                 <span className="text-xs text-teal-400 font-medium">Calibrated</span>
+              </div>
+
+              <div className="p-4 bg-teal-950/30 rounded-xl flex items-center justify-between">
+                <div>
+                  <span className="text-[11px] text-teal-400 block font-semibold">PREDICTIVE SUCCESS FORECAST</span>
+                  <strong className="text-xs sm:text-sm font-semibold text-white">92% Educational Likelihood · 5-Yr Velocity: High Sustained Ascent</strong>
+                </div>
+                <span className="text-xs text-teal-300 font-mono font-bold">IPQ 91/100</span>
               </div>
             </div>
           </div>
@@ -436,11 +433,11 @@ export const LandingView: React.FC<LandingViewProps> = ({
             <div>
               <div className="flex justify-between items-center mb-3">
                 <span className="text-xs font-mono text-teal-400 uppercase">Individual</span>
-                <span className="text-xs text-slate-500 font-mono">Personal</span>
+                <span className="text-xs text-teal-300 font-mono">100% Free</span>
               </div>
               <h3 className="text-lg font-bold text-white mb-2">Career Pass</h3>
-              <div className="text-3xl font-extrabold text-white font-mono tabular-nums mb-4">
-                {formatPrice(29)}
+              <div className="text-3xl font-extrabold text-teal-400 font-mono tracking-tight mb-4">
+                FREE
               </div>
               <ul className="space-y-2 text-xs text-slate-300 mb-6">
                 <li>✓ Full Five-Factor & RIASEC Battery</li>
@@ -453,7 +450,7 @@ export const LandingView: React.FC<LandingViewProps> = ({
               onClick={() => handleNavigate('commercial_b2c')}
               className="w-full py-3 px-4 text-xs font-bold text-slate-950 bg-teal-400 hover:bg-teal-300 rounded-xl transition-colors text-center"
             >
-              Start Personal Assessment
+              Start Free Assessment →
             </button>
           </div>
 
@@ -481,7 +478,7 @@ export const LandingView: React.FC<LandingViewProps> = ({
               </ul>
             </div>
             <button
-              onClick={() => handleNavigate('commercial_b2b')}
+              onClick={() => handleNavigate('institutional_payment')}
               className="w-full py-3 px-4 text-xs font-bold text-slate-950 bg-teal-400 hover:bg-teal-300 rounded-xl transition-colors text-center"
             >
               Deploy Institutional License
@@ -507,10 +504,10 @@ export const LandingView: React.FC<LandingViewProps> = ({
               </ul>
             </div>
             <button
-              onClick={() => handleNavigate('commercial_b2g')}
+              onClick={() => handleNavigate('government_consultation')}
               className="w-full py-3 px-4 text-xs font-bold text-slate-200 hover:text-white bg-slate-800 hover:bg-slate-750 rounded-xl transition-colors text-center"
             >
-              Contact Government Sales
+              Request Government Consultation
             </button>
           </div>
         </div>
@@ -534,7 +531,7 @@ export const LandingView: React.FC<LandingViewProps> = ({
           </p>
           <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
             <button
-              onClick={onStartAssessment}
+              onClick={() => handleNavigate('auth_signup')}
               className="px-8 py-4 text-xs font-bold text-slate-950 bg-teal-400 hover:bg-teal-300 rounded-xl transition-all shadow-md active:scale-[0.98]"
             >
               Start Full Assessment Battery

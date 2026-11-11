@@ -49,6 +49,8 @@ import { YouthSafeguardingPage } from './components/pages/governance/YouthSafegu
 import { B2CIndividualPassPage } from './components/pages/commercial/B2CIndividualPassPage';
 import { B2BInstitutionalLicensingPage } from './components/pages/commercial/B2BInstitutionalLicensingPage';
 import { B2GNationalDeploymentPage } from './components/pages/commercial/B2GNationalDeploymentPage';
+import { InstitutionalPaymentPage } from './components/pages/commercial/InstitutionalPaymentPage';
+import { GovernmentConsultationPage } from './components/pages/commercial/GovernmentConsultationPage';
 
 export default function App() {
   // Navigation & Role State
@@ -256,7 +258,12 @@ export default function App() {
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
             onNavigate={(v) => {
-              setActiveView(v);
+              if (v === 'auth_signup') {
+                setAuthInitialMode('signup');
+                setActiveView('auth');
+              } else {
+                setActiveView(v);
+              }
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
           />
@@ -514,9 +521,18 @@ export default function App() {
               if (plan.includes('Individual')) {
                 setActiveView('commercial_b2c');
               } else if (plan.includes('Institutional')) {
-                setActiveView('commercial_b2b');
+                setActiveView('institutional_payment');
               } else {
-                setActiveView('commercial_b2g');
+                setActiveView('government_consultation');
+              }
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            onNavigate={(v) => {
+              if (v === 'auth_signup') {
+                setAuthInitialMode('signup');
+                setActiveView('auth');
+              } else {
+                setActiveView(v);
               }
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
@@ -572,7 +588,12 @@ export default function App() {
         {activeView === 'commercial_b2c' && (
           <B2CIndividualPassPage
             onNavigate={(v) => {
-              setActiveView(v);
+              if (v === 'auth_signup') {
+                setAuthInitialMode('signup');
+                setActiveView('auth');
+              } else {
+                setActiveView(v);
+              }
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
             onStartAssessment={handleStartFullAssessment}
@@ -597,6 +618,34 @@ export default function App() {
         {/* Commercial Link 3: B2G National Deployment Agreements */}
         {activeView === 'commercial_b2g' && (
           <B2GNationalDeploymentPage
+            onNavigate={(v) => {
+              setActiveView(v);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            onOpenGovernmentConsole={() => {
+              setActiveRole('government_analyst');
+              setActiveView('government');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          />
+        )}
+
+        {/* Dedicated Institutional License Payment Checkout Page (MPESA, EFT, Bank Wire, Google Pay) */}
+        {activeView === 'institutional_payment' && (
+          <InstitutionalPaymentPage
+            onNavigate={(v) => {
+              setActiveView(v);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            onPaymentSuccess={() => {
+              setActiveRole('institution_admin');
+            }}
+          />
+        )}
+
+        {/* Dedicated Government Consultation Proposal Request Page */}
+        {activeView === 'government_consultation' && (
+          <GovernmentConsultationPage
             onNavigate={(v) => {
               setActiveView(v);
               window.scrollTo({ top: 0, behavior: 'smooth' });

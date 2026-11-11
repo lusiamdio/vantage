@@ -16,6 +16,7 @@ import {
   AssessmentValidityMetrics,
   AssessmentResultRecord,
 } from '../types';
+import { generateHarmonicPredictiveProfile } from './predictiveEngine';
 
 /**
  * Standard Sten score conversion (Mean = 5.5, SD = 2.0)
@@ -307,7 +308,8 @@ export function calculatePsychometricScores(
     { name: 'Regulatory & Standards Compliance', level: bigFive.conscientiousness.percentile, readiness: 'Proficient' },
   ];
 
-  return {
+  // Calculate base results record
+  const resultRecord: AssessmentResultRecord = {
     id: `res_${Date.now()}`,
     userId,
     completedAt: new Date().toISOString(),
@@ -319,4 +321,9 @@ export function calculatePsychometricScores(
     careerValues,
     skills,
   };
+
+  // Attach predictive forecasting intelligence
+  resultRecord.harmonicForecast = generateHarmonicPredictiveProfile(resultRecord);
+
+  return resultRecord;
 }
