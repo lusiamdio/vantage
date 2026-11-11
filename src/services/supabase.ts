@@ -414,6 +414,42 @@ export async function saveRoadmapMilestonesToSupabase(
 }
 
 /**
+ * Fetches assessment sections from Supabase public.assessment_sections
+ */
+export async function fetchAssessmentSectionsFromSupabase(): Promise<any[] | null> {
+  try {
+    const { data, error } = await supabase
+      .from('assessment_sections')
+      .select('*')
+      .order('created_at', { ascending: true });
+
+    if (error || !data || data.length === 0) return null;
+    return data;
+  } catch (err) {
+    console.error('Error fetching assessment sections from Supabase:', err);
+    return null;
+  }
+}
+
+/**
+ * Fetches occupations from Supabase public.occupations
+ */
+export async function fetchOccupationsFromSupabase(): Promise<any[] | null> {
+  try {
+    const { data, error } = await supabase
+      .from('occupations')
+      .select('*')
+      .order('title', { ascending: true });
+
+    if (error || !data || data.length === 0) return null;
+    return data;
+  } catch (err) {
+    console.error('Error fetching occupations from Supabase:', err);
+    return null;
+  }
+}
+
+/**
  * Logs a statutory security or audit trail event to Supabase public.security_audit_logs
  */
 export async function logSecurityAuditToSupabase(
